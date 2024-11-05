@@ -1,0 +1,34 @@
+Functional Spec
+---------------
+
+x25_mon : Monitor x25 physical lines and report status changes to sm_mgr.
+
+- Read sync.tab and foreach physical line issue a dummy x25listen just
+  to obtain a cid.
+- on a time basis issue x25linkstats to get statistics about the link.
+  When the link goes down use sm_set_route(host, link, type, newstatus)
+  to notify the status manager that the link has gone down. No routing
+  will take place for a link which is down.
+
+  Possible lnk_line_status values :
+
+  XS_LCLOSED
+  XS_LCLOSING
+  XS_LOPENING
+  XS_LANSWER
+  XS_LANSWERDELAY
+  XS_LOPENED
+
+
+  Possible lnk_protocol_status values :
+
+  XS_PCLOSED
+  XS_PCLOSING
+  XS_POPENING
+  XS_POPENED
+  XS_PRESETTING
+  XS_PWAITRESET
+  XS_PWAITOPEN
+  XS_PXIDSEND
+  XS_PXIDRECV
+

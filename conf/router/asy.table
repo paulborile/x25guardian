@@ -1,0 +1,50 @@
+# Asynchronous devices configuration table
+#
+# format :
+# tty group:device #:device: <list of stty options> \
+# <list of stty options>
+
+GPC:1:/dev/term/tty3a:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+GPC:2:/dev/term/tty3b:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+GPC:3:/dev/term/tty3c:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+GPC:4:/dev/term/tty3d:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+GPC:5:/dev/term/tty3e:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+GPC:6:/dev/term/tty3f:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+GPC:7:/dev/term/tty3g:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+GPC:8:/dev/term/tty3h:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+GPC:9:/dev/term/tty3i:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+DC:1:/dev/term/tty3j:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+DC:2:/dev/term/tty3k:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+DC:3:/dev/term/tty3l:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+DC:4:/dev/term/tty3m:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+LSX:1:/dev/term/tty3n:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 
+
+LSX:2:/dev/term/tty3o:9600 raw -echo cs8 -cstopb cread hupcl -icanon \
+-isig ignpar brkint -clocal blocksize=128 timeout=5 

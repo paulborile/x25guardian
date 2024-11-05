@@ -1,0 +1,22 @@
+CSRC =  client.c
+SSRC =  server.c
+
+COBJ =  client.o
+SOBJ =  server.o
+
+LIBES = -L${PX25HOME}/lib -lmos
+
+all		:
+			make client.386
+			make server.386
+			make asy.386
+
+client.386	:	$(COBJ)
+		$(CC) -o $@ $(COBJ) $(LIBES)
+
+server.386	:	$(SOBJ)
+		$(CC) -o $@ $(SOBJ) $(LIBES)
+
+asy.386	:	asy.o
+		$(CC) -o $@ asy.o $(LIBES)
+

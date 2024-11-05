@@ -1,0 +1,20 @@
+===================================================================
+RCS file: RCS/x25_incall.c,v
+retrieving revision 1.2
+diff -r1.2 x25_incall.c
+414c414
+< 			debug((3,"ENETCALLCLR: info %x\n", info));
+---
+> 			debug((3,"main() - ENETCALLCLR: info %x\n", info));
+415a416
+> 			x25hangup(cid, NULL , XH_IMM, X25NULLFN);
+419c420
+< 			debug((1,"cause: %s, diag: %s\n",msg, message));
+---
+> 			debug((1,"main() - cause: %s, diag: %s\n",msg, message));
+803d803
+< 	debug((3, "child_termination() - x25hangup(%d) ok\n", cid));
+===================================================================
+RCS file: RCS/x25_incall_rec.c,v
+retrieving revision 1.2
+diff -r1.2 x25_incall_rec.c

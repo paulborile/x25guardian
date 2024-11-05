@@ -1,0 +1,172 @@
+===================================================================
+RCS file: RCS/argotel.c,v
+retrieving revision 1.3
+diff -r1.3 argotel.c
+===================================================================
+RCS file: RCS/easyway.c,v
+retrieving revision 1.3
+diff -r1.3 easyway.c
+691a692,735
+> 
+> 		/*
+> 		 * TODO
+> 		 * Insert here receive section for ASY_CALL_ACCEPT or ASY_CALL_REJECT
+> 		 */
+> 
+> 		if (( rc = mos_recv(sock, buf, BUFSIZ)) < 0 )
+> 		{
+> 			errlog(X25_LOG, "%s : ERROR RECEIVING ASYNC CONFIRM\n", remote);
+> 			errlog(INT_LOG, "%s : mos_recv error %d\n", pname, errno);
+> 			sm_free_route(br->hostname, br->link);
+> 			close(sock);
+> 			return(-1);
+> 		}
+> 
+> 		switch	(ph->pkt_code)
+> 		{
+> 			case		ASY_CALL_REJECT	:
+> 
+> 				debug((3, "easyway() - ASY_CALL_REJECT received\n"));
+> 				memcpy(dummy, buf + sizeof(struct PKT_HDR),
+> 											rc - sizeof(struct PKT_HDR));
+> 
+> 				dummy[rc - sizeof(struct PKT_HDR)] = '\0';
+> 				errlog(X25_LOG, "%s : ASYNC ERROR : %s \n", remote, dummy);
+> 				errlog(X25_LOG, "%s : PORT %s DISABLED !\n",
+> 									remote, br->link);
+> 				sm_free_route(br->hostname, br->link);
+> 				close(sock);
+> 				return(-1);
+> 				break;
+> 			case		ASY_CALL_ACCEPT	:
+> 
+> 				debug((3, "easyway() - ASY_CALL_ACCEPT received\n"));
+> 				break;
+> 
+> 			default							:
+> 
+> 				debug((1, "easyway() - Unknown pkt_code received %d\n",
+> 																		ph->pkt_code));
+> 				errlog(INT_LOG, "%s : mos_recv pkt_code %d not foreseen\n",
+> 											pname, ph->pkt_code);
+> 				break;
+> 		}
+===================================================================
+RCS file: RCS/security.c,v
+retrieving revision 1.1
+diff -r1.1 security.c
+===================================================================
+RCS file: RCS/signals.c,v
+retrieving revision 1.0
+diff -r1.0 signals.c
+===================================================================
+RCS file: RCS/subnua.c,v
+retrieving revision 1.0
+diff -r1.0 subnua.c
+85d84
+< static	struct	PKT_HDR		*ph			= (struct PKT_HDR *) (buf);
+112a112
+> 	char		dummy[BUFSIZ];
+119d118
+< 	char		buf[BUFSIZ];
+362c361,404
+< 	
+---
+> 
+> 	/*
+> 	 * Insert here receive section for ASY_CALL_ACCEPT or ASY_CALL_REJECT
+> 	 */
+> 
+> 	if (( rc = mos_recv(sock, buf, BUFSIZ)) < 0 )
+> 	{
+> 		errlog(X25_LOG, "%s : ERROR RECEIVING ASYNC CONFIRM\n", remote);
+> 		errlog(INT_LOG, "%s : mos_recv error %d\n", pname, errno);
+> 		sm_free_route(br->hostname, br->link);
+> 		close(sock);
+> 		return(-1);
+> 	}
+> 
+> 	switch	(ph->pkt_code)
+> 	{
+> 		case		ASY_CALL_REJECT	:
+> 
+> 			debug((3, "subnua() - ASY_CALL_REJECT received\n"));
+> 			memcpy(dummy, buf + sizeof(struct PKT_HDR),
+> 										rc - sizeof(struct PKT_HDR));
+> 
+> 			dummy[rc - sizeof(struct PKT_HDR)] = '\0';
+> 			errlog(X25_LOG, "%s : ASYNC ERROR : %s \n", remote, dummy);
+> 			errlog(X25_LOG, "%s : PORT %s DISABLED !\n",
+> 									remote, br->link);
+> 			sm_free_route(br->hostname, br->link);
+> 			close(sock);
+> 			return(-1);
+> 			break;
+> 		case		ASY_CALL_ACCEPT	:
+> 
+> 			debug((3, "subnua() - ASY_CALL_ACCEPT received\n"));
+> 			break;
+> 
+> 		default							:
+> 
+> 			debug((1, "subnua() - Unknown pkt_code received %d\n",
+> 																	ph->pkt_code));
+> 			errlog(INT_LOG, "%s : mos_recv pkt_code %d not foreseen\n",
+> 										pname, ph->pkt_code);
+> 			break;
+> 	}
+> 
+===================================================================
+RCS file: RCS/tablepid.c,v
+retrieving revision 1.1
+diff -r1.1 tablepid.c
+===================================================================
+RCS file: RCS/x25_listener.c,v
+retrieving revision 1.3
+diff -r1.3 x25_listener.c
+51a52
+> #include		"rt.h"
+61a63
+> extern	struct	NUA			*rt_find();
+135a138,139
+> 	char	ea_ud[MAX_USER_DATA_LEN * 3];
+> 	struct	NUA	*nua;
+353a358,362
+> 			/*
+> 			 * Here we have an ARGOTEL PID.
+> 			 * We must check if it is routable by means of the normal
+> 			 * routing table. If yes process as normal easyway call
+> 			 */
+354a364,393
+> 			if ((nua = rt_find(user_data.xd_data,
+> 							user_data.xd_len)) != (struct NUA *) NULL)
+> 			{
+> 				if ( easyway(cid, &user_data, &facility,
+> 											remote_addr, local_addr, info) == -1 )
+> 				{
+> 					if (x25hangup(cid, NULL, XH_IMM, X25NULLFN) < 0)
+> 					{
+> 						x25errormsg(msg);
+> 						debug((1, "main() - x25hangup() failed error %d %s\n",
+> 							x25error(), msg));
+> 						errlog(INT_LOG,"%s - x25hangup() failed with error %d, %s\n",
+> 											pname, x25error(), msg);
+> 					}
+> 					sm_free_route(myhostname, listenportstr);
+> 					debug((3, "main() - x25hangup sent\n"));
+> 
+> 					errlog(X25_LOG, "%s : %s:%d INCOMING CALL CLEARED\n", 
+> 									remote_addr, myhostname, listenport);
+> 				}
+> 				continue;
+> 			}
+> 
+> 			/* It is Argotel but not routable so use normal procedure */
+> 
+> 			bin_to_ea(user_data.xd_data, ea_ud, user_data.xd_len);
+> 
+> 			errlog(X25_LOG,"%s : UD %s NOT ROUTABLE.WAIT NEXT PCKT\n",
+> 									remote_addr, ea_ud);
+> 
+365d403
+< 					continue;

@@ -1,0 +1,8 @@
+===================================================================
+RCS file: RCS/x25_shmgr.c,v
+retrieving revision 1.1
+diff -r1.1 x25_shmgr.c
+57c57
+< #define	MAX_TELNET		2
+---
+> #define	MAX_TELNET		3

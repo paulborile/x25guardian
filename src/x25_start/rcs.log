@@ -1,0 +1,89 @@
+===================================================================
+RCS file: RCS/pid.c,v
+retrieving revision 1.0
+diff -r1.0 pid.c
+===================================================================
+RCS file: RCS/x25_spawn_proc.c,v
+retrieving revision 1.1
+diff -r1.1 x25_spawn_proc.c
+===================================================================
+RCS file: RCS/x25_start.c,v
+retrieving revision 1.2
+diff -r1.2 x25_start.c
+86a87
+> 	int	i;
+94a96,97
+> 	int	parallel_listeners = 0;
+> 	int	svc;
+129a133
+> 
+152c156
+< 		/* the file exists so processs are already running */
+---
+> 		/* the file exists so maybe process are already running */
+154,156c158,177
+< 		printf("PX25 SOFTWARE FOR MACHINE %s IS ALREADY RUNNING\n", myhostname);
+< 		printf("STOP SOFTWARE WITH x25_stop COMMAND\n");
+< 		exit(99);
+---
+> 		if (( fp_utmp = fopen(utmp_file, "r")) == NULL )
+> 		{
+> 			printf("CANNOT OPEN UTMP FILE %s FOR READING\n", utmp_file);
+> 		}
+> 		else
+> 		{
+> 			while (fscanf(fp_utmp, "%05d\n", &pid) == 1);
+> 
+> 			if ((kill(pid, 0)) < 0)
+> 			{
+> 				/*process doesn't exist anymore */
+> 				unlink(utmp_file);
+> 			}
+> 			else
+> 			{
+> 				printf("PX25 SOFTWARE FOR MACHINE %s IS ALREADY RUNNING\n", myhostname);
+> 				printf("STOP SOFTWARE WITH x25_stop COMMAND\n");
+> 				exit(99);
+> 			}
+> 		}
+163c184
+< 		printf("CANNOT OPEN UTMP FILE %s\n", utmp_file);
+---
+> 		printf("CANNOT OPEN UTMP FILE %s FOR WRITING\n", utmp_file);
+289,294c310,313
+< 				if (( pid = spawn_proc(command)) == -1 )
+< 				{
+< 					printf("UNABLE TO START PROCESS %s errno %d\n", command, errno);
+< 					fclose(fp);
+< 					exit(99);
+< 				}
+---
+> 				svc = atoi(fields[2]);
+> 				parallel_listeners = atoi(fields[1]);
+> 				if ( parallel_listeners == 0 ) parallel_listeners = 2;
+> 				if ( parallel_listeners > svc ) parallel_listeners = svc;
+296c315
+< 				if ( pid_push(pid, command) == -1 )
+---
+> 				for (i=0; i<parallel_listeners; i++)
+298,299c317,328
+< 					printf("PID TABLE IS FULL FOR %s\n", command);
+< 				}
+---
+> 					if (( pid = spawn_proc(command)) == -1 )
+> 					{
+> 						printf("UNABLE TO START PROCESS %s errno %d\n",
+> 																		command, errno);
+> 						fclose(fp);
+> 						exit(99);
+> 					}
+> 
+> 					if ( pid_push(pid, command) == -1 )
+> 					{
+> 						printf("PID TABLE IS FULL FOR %s\n", command);
+> 					}
+301c330,331
+< 				printf("STARTING X25_LISTENER ON PORT %s\n", fields[0]);
+---
+> 					printf("STARTING X25_LISTENER ON PORT %s\n", fields[0]);
+> 				}

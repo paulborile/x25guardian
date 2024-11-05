@@ -1,0 +1,39 @@
+INCL = -I/usr/include/eicon
+CFLAGS = -O $(INCL) -DEC_UNIX -DUNIX 
+LDFLAGS	= -lx25 -lEec
+
+all:	xtermSCO xtermUW xctSCO xctUW xft
+
+xtermSCO:	xterm.o
+		cc -c $(CFLAGS) xterm.c	
+		cc -o xtermSCO xterm.o $(LDFLAGS)
+		rm xterm.o
+
+xtermUW:	xterm.o
+		cc -c $(CFLAGS) -DUNIXWARE xterm.c	
+		cc -o xtermUW xterm.o $(LDFLAGS)
+		rm xterm.o
+
+xctSCO:		xct.o
+		cc -c $(CFLAGS) xct.c	
+		cc -o xctSCO xct.o $(LDFLAGS)
+		rm xct.o
+
+xctUW:		xct.o
+		cc -c $(CFLAGS) -DUNIXWARE xct.c	
+		cc -o xctUW xct.o $(LDFLAGS)
+		rm xct.o
+
+
+xft:		xft.o
+		cc -o $@ $@.o $(LDFLAGS)
+
+
+xterm.o:	xterm.c
+
+xct.o:		xct.c
+
+xft.o:		xft.c
+
+clean:
+	rm *.o

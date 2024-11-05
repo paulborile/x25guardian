@@ -1,0 +1,16 @@
+===================================================================
+RCS file: RCS/bin_to_ea.c,v
+retrieving revision 1.0
+diff -r1.0 bin_to_ea.c
+===================================================================
+RCS file: RCS/ea_to_bin.c,v
+retrieving revision 1.0
+diff -r1.0 ea_to_bin.c
+===================================================================
+RCS file: RCS/router.c,v
+retrieving revision 1.1
+diff -r1.1 router.c
+===================================================================
+RCS file: RCS/sub_router.c,v
+retrieving revision 1.2
+diff -r1.2 sub_router.c

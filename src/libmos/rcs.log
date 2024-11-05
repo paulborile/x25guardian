@@ -1,0 +1,8 @@
+===================================================================
+RCS file: RCS/mos_receive.c,v
+retrieving revision 1.0
+diff -r1.0 mos_receive.c
+===================================================================
+RCS file: RCS/mos_send.c,v
+retrieving revision 1.0
+diff -r1.0 mos_send.c

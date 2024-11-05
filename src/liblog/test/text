@@ -1,0 +1,12 @@
+get_param() - called for file /usr3/px25/conf/gen.tab and param output_call_timeout
+get_param() - found param output_call_timeout
+get_param() - parameter output_call_timeout found!!
+get_param() - value 5
+gptest: call_timeout = 5
+get_param() - called for file /usr3/px25/conf/gen.tab and param hangup_timeout
+get_param() - found param output_call_timeout
+get_param() - found param argotel_call_timeout
+get_param() - found param hangup_timeout
+get_param() - parameter hangup_timeout found!!
+get_param() - value 0
+gptest : clr_timeout 0

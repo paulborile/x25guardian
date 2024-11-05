@@ -1,0 +1,15 @@
+X25_call_mgr
+------------
+
+- Wait for incoming call to X25 devices on his socket
+
+- Initialize all lines in pool with parameters from X25.table.
+
+- Socket connection : exec a new process (x25_outcall) on every socket 
+connection
+
+
+X25_outcall
+-----------
+
+- receives data and spawn a child to make an x25_call

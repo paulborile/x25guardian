@@ -1,0 +1,19 @@
+===================================================================
+RCS file: RCS/x25_caller.c,v
+retrieving revision 1.4
+diff -r1.4 x25_caller.c
+312,319c312,314
+< 					if ( primary_done == 1 )
+<                      strcpy(cmdremote, i->NUA_X25.primary_nua);
+<                else
+<                {
+<                	if ( primary_done == 0 )
+<                   	strcpy(cmdremote, i->NUA_X25.secondary_nua);
+<                }
+< 					sprintf(cmdremote, "-r%s", cmdremote);
+---
+> 					sprintf(cmdremote, "-r%s",
+>                   ( primary_done == 1 )
+>                   ? i->NUA_X25.primary_nua : i->NUA_X25.secondary_nua);
+490d484
+< 			errlog(X25_LOG,"%s : trying on secondary nua\n", i->source_nua);

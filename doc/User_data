@@ -1,0 +1,18 @@
+User Data Transfer
+------------------
+
+Routing table Example :
+
+\01\00\00\00.si..76     \C0\00\00\00.si..76  22480575    22480575    X25
+\01\00\00\00=si=76      -   						22480575    22480575    X25
+\01\00\00\00=si=76      =   						22480575    22480575    X25
+
+Second field is User data to be used in outgoing call ( = means same as
+input user Data).
+
+If Parameter transfer_udata=1 then user data is either replaced by second
+field or copied from input call user data.
+If transfer_udata=0 then call is done with no user data.
+
+Proposal : '-' means no user data ta all, '=' means same as input,
+<string> is User data to be replaced.

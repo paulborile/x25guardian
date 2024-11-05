@@ -1,0 +1,39 @@
+===================================================================
+RCS file: RCS/asyn_main.c,v
+retrieving revision 1.2
+diff -r1.2 asyn_main.c
+463a464
+> 	char		link[BUFSIZ];
+465a467,469
+> #define		STATUSLOW	0x000000ff
+> #define		STATUSHIGH	0x0000ff00
+> 
+472c476
+< 	if (( rc = tt_free(pid)) < 0 )
+---
+> 	if (( rc = tt_free(pid, link)) < 0 )
+478a483,494
+> 	}
+> 
+> 	if (( status != 0 ) && ((status & STATUSLOW) == 0))
+> 	{
+> 		debug((1, "child_termination() - Process %d Exits with code %d\n",
+> 			pid, (status >> 8) & 0x000000ff ));
+> 
+> 		if (((status >> 8) & 0x000000ff) == EXIT_AND_DELETE_ROUTE )
+> 		{
+> 			errlog(INT_LOG, "%s : DELETING %s\n", pname, link);
+> 			sm_delete_route(myhostname, link);
+> 		}
+===================================================================
+RCS file: RCS/asyn_ttab.c,v
+retrieving revision 1.1
+diff -r1.1 asyn_ttab.c
+256c256
+< int	tt_free(pid)
+---
+> int	tt_free(pid, link)
+257a258
+> char	*link;
+270a272
+> 			sprintf(link, "%s,%d", ttab[i].grp_name, ttab[i].grp_num);

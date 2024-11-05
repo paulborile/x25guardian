@@ -1,0 +1,162 @@
+
+static unused
+    (61) debuglevel     (25) rcsid      
+
+implicitly declared to return int
+    (198) atoi          (539) getpid        (542) initdebug     (561) exit
+
+
+name used but not defined
+    _debug           	sm_mgr.c(84)
+    enddebug         	sm_mgr.c(553)
+    initdebug        	sm_mgr.c(542)
+
+name defined but never used
+    fatal            	sm_mgr.c(64)
+    list_route_1     	sm_mgr.c(80)
+    dump_1           	sm_mgr.c(104)
+    load_1           	sm_mgr.c(160)
+    free_route_1     	sm_mgr.c(217)
+    incr_route_1     	sm_mgr.c(249)
+    delete_route_1   	sm_mgr.c(282)
+    get_best_route_1 	sm_mgr.c(307)
+    create_route_1   	sm_mgr.c(471)
+    init_debug_1     	sm_mgr.c(536)
+    end_debug_1      	sm_mgr.c(550)
+
+name declared but never used or defined
+    rpcb_unset       	rpcb_clnt.h(92)
+    rpcb_getmaps     	rpcb_clnt.h(93)
+    rpcb_rmtcall     	rpcb_clnt.h(94)
+    rpcb_getaddr     	rpcb_clnt.h(96)
+    rpcb_gettime     	rpcb_clnt.h(97)
+    rpcb_taddr2uaddr 	rpcb_clnt.h(98)
+    rpcb_uaddr2taddr 	rpcb_clnt.h(99)
+    xdr_node         	smp.h(19)
+    tiusr_statetbl   	tiuser.h(237)
+    xdr_void         	xdr.h(249)
+    xdr_int          	xdr.h(250)
+    xdr_u_int        	xdr.h(251)
+    xdr_long         	xdr.h(252)
+    xdr_u_long       	xdr.h(253)
+    xdr_short        	xdr.h(254)
+    xdr_u_short      	xdr.h(255)
+    xdr_bool         	xdr.h(256)
+    xdr_enum         	xdr.h(257)
+    xdr_array        	xdr.h(258)
+    xdr_bytes        	xdr.h(259)
+    xdr_opaque       	xdr.h(260)
+    xdr_string       	xdr.h(261)
+    xdr_union        	xdr.h(262)
+    xdr_char         	xdr.h(264)
+    xdr_u_char       	xdr.h(265)
+    xdr_vector       	xdr.h(266)
+    xdr_float        	xdr.h(267)
+    xdr_double       	xdr.h(268)
+    xdr_reference    	xdr.h(269)
+    xdr_pointer      	xdr.h(270)
+    xdr_wrapstring   	xdr.h(271)
+    xdr_netobj       	xdr.h(284)
+    xdrmem_create    	xdr.h(290)
+    xdrstdio_create  	xdr.h(292)
+    xdrrec_create    	xdr.h(293)
+    xdrrec_endofrecord 	xdr.h(294)
+    xdrrec_skiprecord 	xdr.h(295)
+    xdrrec_eof       	xdr.h(296)
+    xdr_des_block    	auth.h(95)
+    _null_auth       	auth.h(166)
+    authsys_create   	auth.h(185)
+    authsys_create_default 	auth.h(186)
+    authnone_create  	auth.h(187)
+    authdes_create   	auth.h(208)
+    authdes_seccreate 	auth.h(210)
+    authesv_create   	auth.h(227)
+    authesv_create_default 	auth.h(228)
+    _rpc_get_t_size  	rpc_com.h(65)
+    _rpc_get_a_size  	rpc_com.h(66)
+    _rpc_dtbsize     	rpc_com.h(67)
+    _rpc_gethostname 	rpc_com.h(68)
+    clnt_create      	clnt.h(314)
+    clnt_create_vers 	clnt.h(326)
+    clnt_tp_create   	clnt.h(341)
+    clnt_tli_create  	clnt.h(352)
+    clnt_vc_create   	clnt.h(366)
+    clnt_dg_create   	clnt.h(379)
+    clnt_raw_create  	clnt.h(395)
+    clnt_pcreateerror 	clnt.h(401)
+    clnt_spcreateerror 	clnt.h(402)
+    clnt_perrno      	clnt.h(407)
+    clnt_perror      	clnt.h(412)
+    clnt_sperror     	clnt.h(413)
+    rpc_call         	clnt.h(435)
+    rpc_broadcast    	clnt.h(452)
+    clnt_sperrno     	clnt.h(460)
+    xdr_callmsg      	rpc_msg.h(192)
+    xdr_callhdr      	rpc_msg.h(200)
+    xdr_replymsg     	rpc_msg.h(208)
+    _seterr_reply    	rpc_msg.h(216)
+    xdr_authsys_parms 	auth_sys.h(92)
+    svc_reg          	svc.h(226)
+    svc_unreg        	svc.h(235)
+    xprt_register    	svc.h(243)
+    xprt_unregister  	svc.h(251)
+    svc_sendreply    	svc.h(280)
+    svcerr_decode    	svc.h(281)
+    svcerr_weakauth  	svc.h(282)
+    svcerr_noproc    	svc.h(283)
+    svcerr_progvers  	svc.h(284)
+    svcerr_auth      	svc.h(285)
+    svcerr_noprog    	svc.h(286)
+    svcerr_systemerr 	svc.h(288)
+    svc_fdset        	svc.h(307)
+    rpctest_service  	svc.h(314)
+    svc_getreq       	svc.h(317)
+    svc_getreqset    	svc.h(319)
+    svc_run          	svc.h(321)
+    svc_create       	svc.h(332)
+    svc_tp_create    	svc.h(344)
+    svc_tli_create   	svc.h(355)
+    svc_vc_create    	svc.h(367)
+    svc_dg_create    	svc.h(374)
+    svc_fd_create    	svc.h(385)
+    svc_raw_create   	svc.h(395)
+    _authenticate    	svc_auth.h(44)
+    xdr_rpcb         	rpcb_prot.h(132)
+    xdr_netbuf       	rpcb_prot.h(134)
+    xdr_rpcblist     	rpcb_prot.h(144)
+    xdr_rpcb_rmtcallargs 	rpcb_prot.h(157)
+    xdr_rpcb_rmtcallres 	rpcb_prot.h(168)
+    rpcb_set         	rpcb_clnt.h(91)
+
+value type used inconsistently
+    getpid           	llib-lc:unistd.h(137) long () :: sm_mgr.c(539) int ()
+    getpid           	llib-lc:unistd.h(137) long () :: sm_mgr.c(540) int ()
+
+value type declared inconsistently
+    sprintf          	llib-lc:stdio.h(159) int () :: stdio.h(181) const char *()
+    vsprintf         	llib-lc:stdio.h(179) int () :: stdio.h(186) char *()
+
+function argument ( number ) used inconsistently
+    sprintf (arg 1) 	llib-lc:stdio.h(159) char * :: sm_mgr.c(539) const char *
+    sprintf (arg 1) 	llib-lc:stdio.h(159) char * :: sm_mgr.c(540) const char *
+
+function returns value which is always ignored
+    strcpy              signal              fclose              fprintf
+    sprintf         
+
+function argument ( number ) declared inconsistently
+    sprintf (arg 1) 	llib-lc:stdio.h(159) char * :: stdio.h(181) const char *
+    vsprintf (arg 2) 	llib-lc:stdio.h(179) const char * :: stdio.h(186) char *
+    sigaddset (arg 1) 	llib-lc:signal.h(31) struct <no-tag> * :: signal.h(244) struct <no-tag> *
+    sigdelset (arg 1) 	llib-lc:signal.h(32) struct <no-tag> * :: signal.h(245) struct <no-tag> *
+    sigemptyset (arg 1) 	llib-lc:signal.h(33) struct <no-tag> * :: signal.h(246) struct <no-tag> *
+    sigfillset (arg 1) 	llib-lc:signal.h(34) struct <no-tag> * :: signal.h(247) struct <no-tag> *
+    sigismember (arg 1) 	llib-lc:signal.h(35) const struct <no-tag> * :: signal.h(248) struct <no-tag> *
+    sigpending (arg 1) 	llib-lc:signal.h(36) struct <no-tag> * :: signal.h(249) struct <no-tag> *
+    sigprocmask (arg 2) 	llib-lc:signal.h(37) const struct <no-tag> * :: signal.h(250) struct <no-tag> *
+    sigprocmask (arg 3) 	llib-lc:signal.h(37) struct <no-tag> * :: signal.h(250) struct <no-tag> *
+    sigsuspend (arg 1) 	llib-lc:signal.h(38) const struct <no-tag> * :: signal.h(251) struct <no-tag> *
+
+declared global, could be static
+    lista            	sm_mgr.c(77)
+    myexit           	sm_mgr.c(560)

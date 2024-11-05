@@ -1,0 +1,62 @@
+#
+# Basic makefile for PX25.
+# All makefiles shall include this standard one
+# DIP_LIBS = list of library pathnames used by the application
+#
+
+.SUFFIXES: .uil .uid .do .x
+
+OBJ = $(SRC:.c=.o)
+
+DOBJ = $(SRC:.c=.do)
+
+CFLAGS = -DUNIX -DEC_UNIX -I${PX25HOME}/include $(LOCAL_CFLAGS) -DUNIXWARE
+
+LIBES = -L${PX25HOME}/lib $(LOCAL_LIBES)
+
+$(EXE):		$(OBJ) $(DIP_LIBS)
+			$(CC) -o $@ $(OBJ) $(LIBES)
+
+$(EXE).d:	$(DOBJ) $(DIP_LIBS)
+			$(CC) -o $@ $(DOBJ) $(LIBES)
+
+compile:	$(EXE)
+
+debug:		$(EXE).d
+
+installd:
+			cp $(EXE).d ${PX25HOME}/bin
+
+install:
+			cp $(EXE) ${PX25HOME}/bin
+
+run_install:
+			mv $(PX25HOME)/bin/$(EXE) ./.oldexe
+			make install
+
+run_installd:
+			mv $(PX25HOME)/bin/$(EXE).d ./.oldexe.d
+			make installd
+
+depend:
+			makedepend $(CFLAGS) -I/usr/include -I/usr/include/sys $(SRC)
+			makedepend -o.do -s"# DEBUG Objects Dependencies" $(CFLAGS) -I/usr/include -I/usr/include/sys $(SRC)
+
+clean:
+			rm -f $(EXE) $(EXE).d $(OBJ) $(DOBJ)
+
+tag:
+			ctags $(SRC)
+			
+all: 		$(EXE) 
+			make tag
+			make install
+
+.x.h:
+			rpcgen $*.x
+
+
+.c.do:
+			$(CC) $(CFLAGS) -DDEBUG -c -W a,-o$@ $<
+	
+# DO NOT DELETE THIS LINE -- make depend depends on it.

@@ -1,0 +1,38 @@
+/*
+ * $Id: file_header,v 1.1.1.1 1998/11/18 15:03:04 paul Exp $
+ * 
+ * Project : PX25 - Router per Autorizzazioni POS
+ *
+ * Module: 
+ *
+ * Contents: 
+ *
+ * Author(s): C.U. S.r.l - P.Borile, G. Priveato
+ *
+ * $Log: file_header,v $
+ * Revision 1.1.1.1  1998/11/18 15:03:04  paul
+ * Guardian : x25 Pos router
+ *
+ *
+ */
+
+static char rcsid[] = "$Id: file_header,v 1.1.1.1 1998/11/18 15:03:04 paul Exp $";
+
+/*  System include files                        */
+
+/*  Project include files                       */
+
+/*  Module include files                        */
+
+/*  Extern functions used                       */
+
+/*  Extern data used                            */
+
+/*  Local constants                             */
+
+/*  Local types                                 */
+
+/*  Local macros                                */
+
+/*  Local data                                  */
+

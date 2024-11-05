@@ -1,0 +1,42 @@
+===================================================================
+RCS file: RCS/x25_test.c,v
+retrieving revision 1.1
+diff -r1.1 x25_test.c
+185,195d184
+< 	/* ACCEPT side */
+< 
+< 	getchar();
+< 	
+< 	if ( x25accept(&cid, info, NULL, NULL,
+< 			remote_addr, local_addr, X25NULLFN) < 0)
+< 	{
+< 		x25errormsg(msg);
+< 		printf("main() - x25accept() error %d %s\n", x25error(), msg);
+< 		myexit(FAILURE);
+< 	}
+197,198d185
+< 	printf("main() - x25accept() OK\n");
+< 
+268c255
+< 			if ((NUA_INFO = rt_find(inbuf)) == (struct NUA *)NULL)
+---
+> 			if ((NUA_INFO = rt_find(inbuf, strlen(inbuf))) == (struct NUA *)NULL)
+306a294,304
+> 	/* ACCEPT side */
+> 
+> 	if ( x25accept(&cid, info, NULL, NULL,
+> 			remote_addr, local_addr, X25NULLFN) < 0)
+> 	{
+> 		x25errormsg(msg);
+> 		printf("main() - x25accept() error %d %s\n", x25error(), msg);
+> 		myexit(FAILURE);
+> 	}
+> 
+> 	printf("main() - x25accept() OK\n");
+307a306
+> 
+328,329d326
+< 		getchar();
+< 
+401d397
+< 	getchar();

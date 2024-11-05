@@ -1,0 +1,20 @@
+===================================================================
+RCS file: RCS/binhex.c,v
+retrieving revision 1.1
+diff -r1.1 binhex.c
+===================================================================
+RCS file: RCS/dscope.c,v
+retrieving revision 1.2
+diff -r1.2 dscope.c
+===================================================================
+RCS file: RCS/errlog.c,v
+retrieving revision 1.1
+diff -r1.1 errlog.c
+===================================================================
+RCS file: RCS/getparam.c,v
+retrieving revision 1.0
+diff -r1.0 getparam.c
+===================================================================
+RCS file: RCS/lin_toks.c,v
+retrieving revision 1.0
+diff -r1.0 lin_toks.c

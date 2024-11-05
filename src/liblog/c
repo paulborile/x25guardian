@@ -1,0 +1,20 @@
+-rw-r--r--   1 px25     proyect     1830 Jul 12 16:24 binhex.c
+-rw-r--r--   1 px25     proyect     1100 Oct  5 18:01 binhex.o
+-rw-r--r--   1 px25     other          0 Nov  3 17:16 c
+-rw-r--r--   1 px25     proyect     6471 Oct  3 17:58 dscope.c
+-rw-r--r--   1 px25     proyect     4212 Oct  5 18:01 dscope.o
+-rwxr-x---   1 px25     proyect     2108 Jul 12 16:25 errlog.c
+-rw-r--r--   1 px25     proyect     3064 Oct  5 18:00 errlog.o
+-rw-r--r--   1 px25     proyect     2703 Jul 12 16:24 getparam.c
+-rw-r--r--   1 px25     proyect     1920 Oct  5 18:01 getparam.o
+-rw-r--r--   1 px25     proyect    12192 Oct  5 18:01 liblog.a
+-rw-r--r--   1 px25     proyect     1920 Jul 11 12:13 lin_toks.c
+-rw-r--r--   1 px25     proyect     1404 Oct  5 18:01 lin_toks.o
+-rw-r-----   1 px25     proyect     1289 Oct  5 18:00 makefile
+-rw-r-----   1 px25     proyect     1293 Sep 18 16:33 makefile.bak
+-rw-r--r--   1 px25     proyect      693 Sep 29 19:07 rcs.log
+-rw-r-----   1 px25     proyect      558 Sep 18 16:34 tags
+
+RCS:
+total 38
+-

@@ -1,0 +1,23 @@
+# General parameters configuration table
+# format: parameter=<value>
+# No blanks admitted
+# security_level = 1    !NO
+
+# timeout to place a x25 output call
+output_call_timeout=10
+
+# timeout receiving first packet of argotel connection
+argotel_call_timeout=30
+
+# timeout before issuing hangup 
+hangup_timeout=5
+
+# timeout of serial device open call
+serial_open_timeout=8
+
+# x25_listener security level
+security_level=1
+
+# set datascope function on (1) or off (0)
+asy_datascope=0
+x25_datascope=0

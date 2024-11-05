@@ -1,0 +1,193 @@
+/*
+ * $Id: x25_incall.prova,v 1.1.1.1 1998/11/18 15:03:30 paul Exp $
+ * 
+ * Project : PX25 - Router per Autorizzazioni POS
+ *
+ * Module: x25_incall.c
+ *
+ * Contents: 
+ *
+ * Author(s): C.U. S.r.l - P.Borile, G. Priveato
+ *
+ * $Log: x25_incall.prova,v $
+ * Revision 1.1.1.1  1998/11/18 15:03:30  paul
+ * Guardian : x25 Pos router
+ *
+ *
+ */
+
+static char rcsid[] = "$Id: x25_incall.prova,v 1.1.1.1 1998/11/18 15:03:30 paul Exp $";
+
+/*  System include files                        */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include	<string.h>
+#include <errno.h>
+#include <signal.h>
+#include <x25.h>
+#include <neterr.h>
+
+/*  Project include files                       */
+#include    "px25_globals.h"
+
+/*  Module include files                        */
+#include "debug.h"
+#include "errlog.h"
+
+/*  Extern functions used                       */
+
+/*  Extern data used                            */
+
+/*  Local constants                             */
+
+/*  Local functions used								*/
+int   sigterm();
+
+/*  Local types                                 */
+
+/*  Local macros                                */
+
+#define  X25_ADLEN   (X25_ADDRLEN+X25_ADDREXT+2)
+
+/*  Local data                                  */
+static char pid_str[20];
+static int debuglevel;
+static char debug_file[BUFSIZ];
+
+int   	socket = -1;      /* Parameters for signal processing */
+int   	PID = -1;
+char     pname[BUFSIZ];
+int		xerr;
+int 		rc;
+int		RC;
+int 		cid;
+int		info;
+int   	sd;            /* socket descriptor on command line */
+int   	port;          /* port descriptor on command line */
+int   	lsn;           /* lsn descriptor on command line */
+int		debug;			/* debug level on command line */
+char     dest_addr[X25_ADLEN];
+char     source_addr[X25_ADLEN];
+char     buf[BUFSIZ];
+char		message[ENETMSGLEN];
+char  	msg[ENETMSGLEN];
+
+main(argc, argv)
+int argc;
+char *argv[];
+{
+	struct   PKT_HDR  *p = (struct PKT_HDR *) (buf);
+
+	pid_t    child;
+	int	err;
+
+#ifdef DEBUG
+	debug = atoi(argv[4]);
+	debuglevel = debug;
+	sprintf(pid_str, "%d", getpid());
+	sprintf(debug_file, "/tmp/x25_incall%05d.debug", getpid());
+	initdebug(debuglevel, debug_file, argv[0], pid_str);
+#endif
+
+	/*
+	 * Globalize program name
+	 */
+
+	strcpy(pname, argv[0]);
+
+	if (argc != 5) {
+		debug((1,"Usage: %s socket# port# lsn# debuglevel#\n",argv[0]));
+		errlog(INT_LOG, "%s : incorrect usage\n", pname);
+		exit(1);
+	}
+	else {
+		sd = atoi(argv[1]);
+		port = atoi(argv[2]);
+		lsn = atoi(argv[3]);
+	}
+
+	signal(SIGCHLD, SIG_IGN);
+	signal(SIGTERM, (void (*)()) sigterm);
+
+	strcpy(source_addr, "");
+	strcpy(dest_addr, "");
+
+	/* Initialize the X.25 library. */
+
+	if (x25init(0) < 0) {
+		x25errormsg(msg);
+		errlog(X25_LOG,"%s : x25init error %d, %s\n",
+									pname, x25error(), msg);
+		exit(1);
+	}
+
+	x25version(msg);                             /* Get the toolkit version. */
+	debug((1,"%s", msg));
+
+	debug((3,"main() - spawned x25_incall_rec\n"));
+
+	if ( x25mkconn(&cid, port, lsn,  X25WAIT) < 0 )
+	{
+		xerr = x25error();
+		x25errormsg(msg);
+		errlog(X25_LOG,"x25incall - x25mkconn error %d, %s\n", 
+					xerr, msg);
+		debug((1, "main(father) - x25mkconn error %d %s\n", xerr, msg));
+		exit(1);
+	}
+
+	debug((1, "x25mkconn OK with cid %d, port %d, lsn %d\n",
+				cid, port, lsn));
+
+   if ((child = spawn_receiver()) < 0) {
+      exit(1);
+   }
+	
+	x25exit();
+}
+
+/*
+ *
+ * Procedure: spawn_receiver
+ *
+ * Parameters:
+ *
+ * Description: spawn x25_incall_rec() function as a new process
+ *
+ * Return: -1 if fork fails, child process id otherwise
+ *
+*/
+int   spawn_receiver()
+{
+
+			if (x25incall_rec() == -1){
+				x25exit();
+				exit(FAILURE);
+			}
+			x25exit();
+			exit(SUCCESS);
+}
+
+/*
+ *
+ *  Procedure: sigterm
+ *
+ *  Parameters: none
+ *
+ *  Description: close sd and exit
+ *
+ *  Return:
+ *
+ */
+
+sigterm(sig)
+{
+	close(socket);
+	errlog(X25_LOG, "%s : SIGTERM received\n", pname);
+	errlog(X25_LOG, "%s : Terminated x25 %s\n", pname,
+								 (PID == 0) ? "incall" : "writer" );
+	x25exit();
+	exit(0);
+}

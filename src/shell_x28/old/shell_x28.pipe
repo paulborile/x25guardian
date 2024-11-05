@@ -1,0 +1,266 @@
+/*
+ * $Id: shell_x28.pipe,v 1.1.1.1 1998/11/18 15:03:34 paul Exp $
+ * 
+ * Project : PX25 - Router per Autorizzazioni POS
+ *
+ * Module: telnet server
+ *
+ * Contents: provide a shell to x25 input connection
+ *
+ * Author(s): C.U. S.r.l - P.Borile, G. Priveato
+ *
+ * $Log: shell_x28.pipe,v $
+ * Revision 1.1.1.1  1998/11/18 15:03:34  paul
+ * Guardian : x25 Pos router
+ *
+ * Revision 1.0  1995/07/14  09:09:20  px25
+ * Initial revision
+ *
+ *
+ */
+
+static char rcsid[] = "$Id: shell_x28.pipe,v 1.1.1.1 1998/11/18 15:03:34 paul Exp $";
+
+/*  System include files                        */
+
+#include		<stdio.h>
+#include		<errno.h>
+#include		<fcntl.h>
+#include		<signal.h>
+#include		<sys/types.h>
+#include		<sys/time.h>
+
+/*  Project include files                       */
+
+#include	"px25_globals.h"
+#include	"errlog.h"
+
+/*  Module include files                        */
+
+/*  Extern functions used                       */
+
+void	get_command_line();
+void	sigterm();
+
+/*  Extern data used                            */
+
+/*  Local constants                             */
+
+#define	OPTS		"s:"
+
+/*  Local types                                 */
+
+/*  Local macros                                */
+
+/*  Local data                                  */
+
+int	socket = -1;
+
+char		pname[32];
+char		ibuffer[BUFSIZ];
+char		obuffer[BUFSIZ];
+struct	PKT_HDR	*o = (struct PKT_HDR *) (obuffer);
+int		pipein[2];
+int		pipeout[2];
+
+
+main(argc, argv)
+int		argc;
+char		**argv;
+{
+	int		src;
+	int		pid, pid1;
+	int		c,b;
+	int		i = 0;
+	FILE		*fpout;
+
+	/*
+ 	 * Select server and protocol 
+	 */
+
+	strcpy(pname, argv[0]);
+
+	get_command_line(argc, argv);
+
+	signal(SIGCHLD, SIG_IGN);
+	signal(SIGTERM, sigterm);
+
+	if ( pipe(pipein) < 0 )
+	{
+		perror("pipe : ");
+		exit();
+	}
+
+	if ( pipe(pipeout) < 0 )
+	{
+		perror("pipe : ");
+		exit();
+	}
+
+	pid = fork();
+
+	switch (pid)
+	{
+		case	-1	:
+
+			errlog(INT_LOG, "%s : Fork error\n", argv[0]);
+			close(socket);
+			close(pipeout[0]);
+			close(pipeout[1]);
+			close(pipein[0]);
+			close(pipein[1]);
+			exit();
+			break;
+
+		case	0	:
+
+			close(socket);
+			dup2(pipein[0], 0);
+			dup2(pipeout[1], 1);
+			dup2(pipeout[1], 2);
+			close(pipein[1]);
+			close(pipeout[0]);
+			execl("/usr/bin/telnet", "telnet", "localhost", 0);
+			exit();
+			break;
+
+		default	:
+
+			/* here pid is telnet process	*/
+
+			pid1 = fork();
+
+			switch (pid1)
+			{
+				case	0	:
+
+					close(pipein[0]);
+					close(pipein[1]);
+
+					close(pipeout[1]);
+
+					while (( src = shell_read(pipeout[0], &obuffer[4])) > 0 )
+					{
+						o->pkt_code = ASY_DATA_PACKET;
+						o->flags = 0;
+						o->pkt_error = 0;
+						o->pkt_len = src;
+						if ( mos_send(socket, obuffer,
+											sizeof(struct PKT_HDR) + o->pkt_len) == -1 )
+						{
+							/* mos_send failed	*/
+							close(pipeout[0]);
+							break;
+						}
+					}
+
+					close(socket);
+					close(pipeout[0]);
+					kill(pid, SIGTERM);
+					kill(getppid(), SIGTERM);
+					exit();
+					break;
+
+				default	:
+
+					/* read from input socket	*/
+					/* here pid1 is the upper child	*/
+
+					close(pipein[0]);
+					close(pipeout[0]);
+					close(pipeout[1]);
+					while (( c = mos_recv(socket, ibuffer, BUFSIZ)) > 0 )
+						write(pipein[1],
+						ibuffer + sizeof(struct PKT_HDR), c - sizeof(struct PKT_HDR));
+
+					kill(pid, SIGTERM);
+					kill(pid1, SIGTERM);
+					close(socket);
+					close(pipein[1]);
+					exit();
+					break;
+
+			} /* end of second fork	*/
+
+			/* here is father of telnet	*/
+	}
+
+	exit();
+}
+
+/*
+ *
+ *  Procedure: get_command_line
+ *
+ *  Parameters: argc, argv
+ *
+ *  Description: parse command line
+ *
+ *  Return: none
+ *
+ */
+
+void	get_command_line(argc, argv)
+int	argc;
+char	**argv;
+{
+	int	fatal = 0;
+	int	c;
+
+	extern char *optarg;
+
+	while ((c = getopt(argc, argv, OPTS)) !=EOF)
+	{
+		switch(c)
+		{
+			case 's':
+				socket  =   atoi(optarg);
+				break;
+
+			default:
+				errlog(INT_LOG, "%s : invalid flag %c\n", pname, c);
+				exit(FAILURE);
+		}
+	}
+
+	if ( socket == -1 ) fatal++;
+
+	if ( fatal )
+	{
+		errlog(INT_LOG, "%s : Usage %s -s<socket>\n", pname);
+		exit(FAILURE);
+	}
+}
+
+/*
+ * read up to newline
+ */
+
+int	shell_read(fd, buffer)
+int	fd;
+char	*buffer;
+{
+	int	count = 0;
+	char	c;
+	int	rc;
+
+	while (( rc = read(fd, &c, 1)) == 1 )
+	{
+		buffer[count] = c;
+		count++;
+
+		if ( c == '\n') return(count);
+	}
+
+	return(rc);
+}
+
+void	sigterm()
+{
+	close(pipeout[0]);
+	close(pipeout[1]);
+	close(pipein[0]);
+	close(pipein[1]);
+	close(socket);
+	exit();
+}

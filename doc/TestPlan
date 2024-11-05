@@ -1,0 +1,34 @@
+Wed Sep 13 14:02:01 CET 1995
+
+PX25 Test Plan
+
+1.0	25 to X25 Routing
+
+This group of test covers all problems and features related to Incoming calls
+routed to a X.25 Channel.
+
+
+1.1	General Conditions
+
+Calls will be made from the PAD and will be received by the PAD.
+
+
+1.2	Tests foreseen
+
+1.2.1		Easyway Incoming Call with outgoing call no UD no FAC.
+1.2.2		Easyway Incoming Call with outgoing call same UD no FAC.
+1.2.3		Easyway Incoming Call with outgoing call user defined UD no FAC.
+1.2.4		Repeat tests 1.2.1, 1.2.2, 1.2.3 with facilities.
+
+
+1.2.5		Argotel Incoming Call with outgoing call no UD no FAC.
+1.2.6		Argotel Incoming Call with outgoing call same UD no FAC.
+1.2.7		Argotel Incoming Call with outgoing call user defined UD no FAC.
+1.2.8		Repeat tests 1.2.5, 1.2.6, 1.2.7 with facilities.
+
+1.2.9		Easyway Incoming Call to ASY (Verify X.29)
+1.2.10	Argotel Incoming Call to ASY (Verify COM + X.29)
+1.2.11	Easyway Incoming Call to ASY, ASY channel down.
+1.2.12	Argotel Incoming Call to ASY, ASY channel down.
+
+1.2.12	Repeat test 1.2.9, 1.2.10, 1.2.11, 1.2.12 with sub-nua routing

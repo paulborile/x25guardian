@@ -1,0 +1,13 @@
+#
+# Synchronous devices configuration table
+#
+# format :
+# device: <list of parameters> 
+#
+# Parameters are :
+#<port>:<Concurrent_listen_for_input_calls>:<max n. of connections(svc)>:<nua>
+# test line
+# 1:3:16:27014188
+
+1:4:16:27014149
+2:1:8:27014148

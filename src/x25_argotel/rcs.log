@@ -1,0 +1,57 @@
+===================================================================
+RCS file: RCS/x25_argotel.c,v
+retrieving revision 1.2
+diff -r1.2 x25_argotel.c
+139a140
+> 	char	dummy[BUFSIZ];
+373,378d373
+< 			 * TODO Think about giving the possibility to identify 
+< 			 * in the standard routing table a GROUP,number
+< 			 * Normal entry :
+< 			 * .GPC..32                -  GPC   GPC   ASY
+< 			 * \01\00\00\00=G=32       -  GPC   GPC   ASY
+< 			 *
+771a767,809
+> 		}
+> 
+> 		/*
+> 		 * mos_recv ASY_CALL_ACCEPT or ASY_CALL_REJECT packet
+> 		 */
+> 
+> 		if (( rc = mos_recv(sock, buf, BUFSIZ)) < 0 )
+> 		{
+> 			errlog(X25_LOG, "%s : ERROR RECEIVING ASYNC CONFIRM\n", remote);
+> 			errlog(INT_LOG, "%s : mos_recv error %d\n", pname, errno);
+> 			sm_free_route(br->hostname, br->link);
+> 			close(sock);
+> 			hangup();
+> 		}
+> 
+> 		switch	(ph->pkt_code)
+> 		{
+> 			case		ASY_CALL_REJECT	:
+> 
+> 				debug((3, "main() - ASY_CALL_REJECT received\n"));
+> 				memcpy(dummy, buf + sizeof(struct PKT_HDR),
+> 											rc - sizeof(struct PKT_HDR));
+> 
+> 				dummy[rc - sizeof(struct PKT_HDR)] = '\0';
+> 				errlog(X25_LOG, "%s : ASYNC ERROR : %s \n", remote, dummy);
+> 				errlog(X25_LOG, "%s : PORT %s DISABLED !\n",
+> 									remote, br->link);
+> 				sm_free_route(br->hostname, br->link);
+> 				close(sock);
+> 				hangup();
+> 				break;
+> 			case		ASY_CALL_ACCEPT	:
+> 
+> 				debug((3, "main() - ASY_CALL_ACCEPT received\n"));
+> 				break;
+> 
+> 			default							:
+> 
+> 				debug((1, "main() - Unknown pkt_code received %d\n",
+> 																		ph->pkt_code));
+> 				errlog(INT_LOG, "%s : mos_recv pkt_code %d not foreseen\n",
+> 											pname, ph->pkt_code);
+> 				break;

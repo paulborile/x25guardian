@@ -1,0 +1,51 @@
+rcsdiff error: RCS/cl_data.c,v: No such file or directory
+===================================================================
+RCS file: RCS/sm.h,v
+retrieving revision 1.1
+diff -r1.1 sm.h
+===================================================================
+RCS file: RCS/sm_best_rt.c,v
+retrieving revision 1.2
+diff -r1.2 sm_best_rt.c
+===================================================================
+RCS file: RCS/sm_create_rt.c,v
+retrieving revision 1.0
+diff -r1.0 sm_create_rt.c
+===================================================================
+RCS file: RCS/sm_debug.c,v
+retrieving revision 1.0
+diff -r1.0 sm_debug.c
+===================================================================
+RCS file: RCS/sm_delete_rt.c,v
+retrieving revision 1.0
+diff -r1.0 sm_delete_rt.c
+===================================================================
+RCS file: RCS/sm_dump_rt.c,v
+retrieving revision 1.0
+diff -r1.0 sm_dump_rt.c
+===================================================================
+RCS file: RCS/sm_enddebug.c,v
+retrieving revision 1.0
+diff -r1.0 sm_enddebug.c
+===================================================================
+RCS file: RCS/sm_exit_rt.c,v
+retrieving revision 1.0
+diff -r1.0 sm_exit_rt.c
+===================================================================
+RCS file: RCS/sm_free_rt.c,v
+retrieving revision 1.0
+diff -r1.0 sm_free_rt.c
+===================================================================
+RCS file: RCS/sm_incr_rt.c,v
+retrieving revision 1.0
+diff -r1.0 sm_incr_rt.c
+===================================================================
+RCS file: RCS/sm_list_rt.c,v
+retrieving revision 1.0
+diff -r1.0 sm_list_rt.c
+===================================================================
+RCS file: RCS/sm_load_rt.c,v
+retrieving revision 1.0
+diff -r1.0 sm_load_rt.c
+rcsdiff error: RCS/smp_clnt.c,v: No such file or directory
+rcsdiff error: RCS/smp_xdr.c,v: No such file or directory

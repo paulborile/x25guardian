@@ -1,0 +1,16 @@
+===================================================================
+RCS file: RCS/syn_tpid.c,v
+retrieving revision 1.0
+diff -r1.0 syn_tpid.c
+===================================================================
+RCS file: RCS/x25_call_mgr.c,v
+retrieving revision 1.1
+diff -r1.1 x25_call_mgr.c
+235c235
+<                         portlist[i], SERVICE, active, max, X25_NUA);
+---
+>                         portlist[i], SERVICE, 0, max, X25_NUA);
+252c252
+< 								portlist[i], active, max, nua));
+---
+> 								portlist[i], 0, max, nua));

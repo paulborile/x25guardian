@@ -1,0 +1,10 @@
+	cc -DUNIX -DEC_UNIX -I/usr/px25/include -I/usr/include/eicon -g -DUNIXWARE -c easyway.c
+	cc -DUNIX -DEC_UNIX -I/usr/px25/include -I/usr/include/eicon -g -DUNIXWARE -c subnua.c
+	cc -o x25_listener x25_listener.o tablepid.o signals.o easyway.o argotel.o  security.o subnua.o -L/usr/px25/lib -ldebug -lmos -lrouter -llog -lsmreq -lsocket -lnsl -lx25 -lEec
+	cc -DUNIX -DEC_UNIX -I/usr/px25/include -I/usr/include/eicon -g -DUNIXWARE -DDEBUG -c -W a,-oeasyway.do easyway.c
+	cc -DUNIX -DEC_UNIX -I/usr/px25/include -I/usr/include/eicon -g -DUNIXWARE -DDEBUG -c -W a,-osubnua.do subnua.c
+	cc -o x25_listener.d x25_listener.do tablepid.do signals.do easyway.do argotel.do  security.do subnua.do -L/usr/px25/lib -ldebug -lmos -lrouter -llog -lsmreq -lsocket -lnsl -lx25 -lEec
+	mv /usr/px25/bin/x25_listener ./.oldexe
+	make install
+	cp x25_listener /usr/px25/bin
+	cp x25_listener.d /usr/px25/bin

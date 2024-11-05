@@ -1,0 +1,44 @@
+#
+# LIB = library name
+# SRC = list of source files the library is made of.
+# LOCAL_CFLAGS = list of private Compiler flags
+# WARNING : if library is a local one, comment the line after install:
+# ( Do not install in project lib dir )
+#
+
+.SUFFIXES: .uil .uid .do
+
+OBJ = $(SRC:.c=.o)
+
+DOBJ = $(SRC:.c=.do)
+
+CFLAGS = -I${PX25HOME}/include $(LOCAL_CFLAGS)
+ARFLAGS = rv
+
+$(LIB):		$(OBJ)
+			rm -f $(LIB)
+			$(AR) $(ARFLAGS) $(LIB) $(OBJ)
+
+compile debug install run_install installd run_installd:	$(LIB)
+			cp $(LIB) ${PX25HOME}/lib
+
+depend:
+			makedepend $(CFLAGS) -I/usr/include -I/usr/include/sys $(SRC)
+
+clean:
+			rm -f $(LIB) $(OBJ)
+
+tag:
+			ctags $(SRC)
+			
+all: 		$(LIB) 
+			make tag
+			make install
+
+.c.do:
+			-mv $*.o $*.oo
+			$(CC) $(CFLAGS) -DDEBUG -c $*.c
+			mv $*.o $@
+			-mv $*.oo $*.o
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.

@@ -1,0 +1,76 @@
+===================================================================
+RCS file: RCS/x25_board.c,v
+retrieving revision 1.2
+diff -r1.2 x25_board.c
+rcsdiff error: RCS/x25_delete.c,v: No such file or directory
+===================================================================
+RCS file: RCS/x25_edit.c,v
+retrieving revision 1.2
+diff -r1.2 x25_edit.c
+154a155,161
+> 
+> 	if ( access(file_name, F_OK) == 0 )
+> 	{
+> 		sprintf(command, "chmod +x %s", file_name);
+> 		system(command);
+> 	}
+> 	
+===================================================================
+RCS file: RCS/x25_enable.c,v
+retrieving revision 1.1
+diff -r1.1 x25_enable.c
+===================================================================
+RCS file: RCS/x25_purge.c,v
+retrieving revision 1.1
+diff -r1.1 x25_purge.c
+28d27
+< #include		<time.h>
+38,40d36
+< extern	char	editor[];
+< extern	char	pager[];
+< 
+54d49
+< 	char	env[BUFSIZ];
+56,57d50
+< 	char	dummy[BUFSIZ];
+< 	char	day[20];
+60,63d52
+< 	long	clock;
+< 	struct	tm		*t;
+< 
+< 	day[0] = 0;
+===================================================================
+RCS file: RCS/x25_show.c,v
+retrieving revision 1.1
+diff -r1.1 x25_show.c
+===================================================================
+RCS file: RCS/x25_spv.c,v
+retrieving revision 1.2
+diff -r1.2 x25_spv.c
+152a153,160
+> 		else if ( strcmp(command, "asy_enable") == 0 )
+> 		{
+> 			asy_enable();
+> 		}
+> 		else if ( strcmp(command, "delete") == 0 )
+> 		{
+> 			delete();
+> 		}
+173c181,182
+< 	printf("status    {route,asy,hdlc,x25,boards,process}\n");
+---
+> 	printf("delete    {init_asy,x29}\n");
+> 	printf("status    {route,hdlc,x25,boards,process}\n");
+176d184
+< 	printf("board     {start,stop,config}\n");
+177a186,187
+> 	printf("board     {start,stop,config}\n");
+> 	printf("asy_enable\n");
+===================================================================
+RCS file: RCS/x25_status.c,v
+retrieving revision 1.2
+diff -r1.2 x25_status.c
+===================================================================
+RCS file: RCS/x25_tail.c,v
+retrieving revision 1.1
+diff -r1.1 x25_tail.c

@@ -1,0 +1,14 @@
+#
+# Template makefile for modules with many targets
+# TARGETS = names of sub-modules (1 direcory for each modules)
+# Ex:
+# TARGETS = spv_stat stat_viewer s_collector
+# Directory containing libraries first
+#
+
+TARGETS =
+
+SHELL = /bin/sh
+
+compile debug install depend clean run_install tag all::
+			for i in $(TARGETS) ; do cd $$i ; echo $$i; make $@ ; cd .. ; done

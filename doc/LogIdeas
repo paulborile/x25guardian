@@ -1,0 +1,13 @@
+Ideas for the logging of incoming calls :
+
+Each machine has is own log directory.
+
+Ex: router/x25.log-??
+
+date     lk vc nua          msg
+17:14:51 01 08 226002871516 INCOMING CALL TO 9000111 PID EASYWAY
+17:14:53 01 07 226002871516 INCOMING CALL TO 9000111 PID EASYWAY
+
+
+vc : obtainable from x25status(cid, buffer);
+lk : Is the port number which may be from 1 to 48 or from FF to D0

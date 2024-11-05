@@ -1,0 +1,8 @@
+
+Performances check over PX25
+----------------------------
+
+386DX40 Interactive
+
+sm_best_route overhead	: 56 msec
+fork overhead				: 35 msec

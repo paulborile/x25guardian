@@ -1,0 +1,48 @@
+# Tabella di routing per chiamate entranti
+# Formato:
+# <Userdata_tobe_matched> <Userdata_tobe_replaced> <nua1> nua2> <nuatype>
+# nua_types validi : X25, ASY
+
+\01\00\00\00=s=76			\FF*si	router:2.22482231	-	X25
+\01\00\00\00s76			\FF*si	router:2.22482231	-	X25
+\C0\00\00\00=s=76			\FF*si	router:2.22482231	-	X25
+\C0\00\00\00s76			\FF*si	router:2.22482231	-	X25
+.si..76						\FF*si	router:2.22482231	-	X25
+
+\01\00\00\00=a=77			-	router:2.2660003101	-	X25
+\01\00\00\00a77			-	router:2.2660003101	-	X25
+\C0\00\00\00=a=77			-	router:2.2660003101	-	X25
+\C0\00\00\00a77			-	router:2.2660003101	-	X25
+.amex..77					-	router:2.2660003101	-	X25
+
+\01\00\00\00=v=78			\FF*visa 	router:2.224841193		-		X25
+\01\00\00\00v78			\FF*visa 	router:2.224841193		-		X25
+\C0\00\00\00=v=78			\FF*visa		router:2.224841193		-		X25
+\C0\00\00\00v78			\FF*visa		router:2.224841193		-		X25
+.visa..78					\FF*visa		router:2.224841193		-		X25
+
+\01\00\00\00=d=79			-	router:2.2685005740	2643029740	X25
+\01\00\00\00d79			-	router:2.2685005740	2643029740	X25
+\C0\00\00\00=d=79			-	router:2.2685005740	2643029740	X25
+\C0\00\00\00d79			-	router:2.2685005740	2643029740	X25
+.dine..79					-	router:2.2685005740	2643029740	X25
+
+\01\00\00\00=D=32			-	DC	DC	ASY
+\01\00\00\00D32			-	DC	DC	ASY
+\C0\00\00\00=D=32			-	DC	DC	ASY
+\C0\00\00\00D32			-	DC	DC	ASY
+.DC..32						-	DC	DC	ASY
+
+\01\00\00\00=L=32			-	LSX	LSX	ASY
+\01\00\00\00L32			-	LSX	LSX	ASY
+\C0\00\00\00=L=32			-	LSX	LSX	ASY
+\C0\00\00\00L32			-	LSX	LSX	ASY
+.LSX..32						-	LSX	LSX	ASY
+
+\01\00\00\00G32			-	GPC	GPC	ASY
+\01\00\00\00=G=32			-	GPC	GPC	ASY
+\C0\00\00\00G32			-	GPC	GPC	ASY
+\C0\00\00\00=G=32			-	GPC	GPC	ASY
+.GPC..32						-	GPC	GPC	ASY
+
+\01\00\00\00telnet		-	0000000007		0000000007		TTY

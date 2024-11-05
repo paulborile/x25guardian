@@ -1,0 +1,183 @@
+From: P.Borile.
+Date: Tue Jul 25 14:54:22 MET DST 1995
+
+Subject: Current Status of PX25 project with bugs and new features
+         to be implemented.
+
+
+Bugs
+----
+
+- Do not send x.29 packets to Asynchronous lines. Packets with QBIT need
+  to be marked by x25_incall module, using a certain PKT_HDR field before
+  "mos_sending" them to either async or sync. The asyn_x28 process
+  shall not issue x28_write for these packets.
+  Status : Fixed,Tested
+
+- x3 parameters: blocksize and timeout should be related to a single 
+  async line. To be decided how. (adding the two parameters in async.tab or
+  adding to x3 tab the ttyline ).
+  Status : Under Fix by Giorgio
+
+- Incoming calls destination NUA have to be checked against configure NUA
+  for port with partial matching. Es:
+
+  CALL REQ FROM 927001100 TO 900011123 has to be accepted even if our NUA for
+  that port is only 9000111. The sub-nua 23 will be treated differently.
+  See below.
+  Status : Fixed, To Be Tested
+
+- If remote nua in incoming call is empty ??? What can we do ? Riccardo.
+  Asnwer: report all errlogs from "unknown-nua".
+  Status : Fixed, To Be Tested
+
+- Check in asy_x28, errlog(OPEN TIMEOUT ...) is not correct.
+  Status : Fixed
+
+- x25_incall: when x25_recv fails, error message is wrong.
+  Status : ?
+
+Special Argotel Procedures
+--------------------------
+
+Normal Argotel sequence has to be modified accordingly :
+
+- x25listen receives argotel call (PID = C0000000)
+- Issue x25accept
+- x25recv
+- route(1st_packet_data)
+- if ( connection can be estabilished ) and (connection to ASY )
+  {
+      set remote parameters (RSET) : this has to be done by translating one or
+      more x.28 commands from an appropriate file into a x.29 packet which has
+      to be sent over the network wiuth the Q_BIT high.
+
+      x25_send("COM\r") back to POS.
+  }
+- normal operation (like now).
+
+Status : To Be Implemented
+
+Remote PAD setting
+------------------
+
+The possibility to set remote pad when the connection is towards a local
+Async line has to be enabled using one or more flags. Ex:
+
+set_remote_pad_on_argotel=1
+set_remote_pad_on_easyway=1
+x28_commands_file=/usr3/px25/conf/router/x28_comms.tab
+
+Status : To Be Implemented
+
+Asynchronous tty groups
+-----------------------
+
+Async lines have to be organized into tty Groups so that in the routing
+table it is possible to route incoming calls to different groups of ttys.
+A change to async table is foreseen to associate ttys to groups.
+
+Asy table example :
+
+<group_name>:<number>:<device>
+
+GPC:1:/dev/term/tty3A 9600 -echo
+GPC:2:/dev/tty01 9600 -echo
+GPC:3:/dev/cua0 9600 -echo
+DC:1:/dev/term/tty3B 9600 -echo
+
+- asyn_mgr and asy_x28 modules will have to modified to read the table format.
+
+
+SUB-NUA Routing
+---------------------
+
+Certain incoming calls which arrive only with PID (no User data additional
+field) may have to be routed by means of a sub-nua Address. This
+has to be obtained by subtracting the destination nua from the real configured
+nua for that certain port (string subtraction). Es:
+
+  CALL REQ FROM 927001100 TO 900011123. Configured NUA for port is 9000111.
+  Sub-NUA = 23
+
+Sub-nua addressing applies only to Local Asynchronous Devices i.e. we will
+have to associate sub-nua 23 to a specific async port (host:device).
+
+Example SUB-NUA table :
+
+<sub-nua>                <tty>
+23                       GPC,2 
+                         ^^^^^ This is Group GPC, Entry number 2
+
+- sm_get_best_route() function will be modified in order that for ASY
+routing it will behave as follows :
+
+sm_get_best_route(host, ASY, grp)
+..
+..
+struct	GROUP	*grp;
+
+if ( grp->grp_num != -1 )
+	create string "<GROUP_NAME>,<GROUP_NUM>" and search for it in table
+else
+	Search the first free entry, on local machine, belonging to group
+	<GROUP_NAME>
+
+
+When sm_get_best_route completes data received will be as follows:
+
+struct	BEST_ROUTE
+{
+	host		"router"
+	service	"px25asynmgr"
+	link		"GPC,3"
+}
+
+x25_listener will connect to host "router" service "px25asynmgr" and send
+a PKT_HDR containing pkt_code = ASY_CALL_REQ followed by a struct GROUP
+containing grp_name == "GPC", and grp_num == 3.
+asyn_mgr will receive, search internally for the availability of port
+GPC,3 and then issue either ASY_CALL_ACCEPT packet or ASY_CALL_REJECT.
+
+
+Extended Routing
+----------------
+
+Changes to routing table are foreseen to allow both PID and additional (i.e.
+complete) user data to be matched. Ex:
+
+\01\00\00\00.s..76       22486773        22486773       X25
+
+This entry would match an Easyway PID with additional string set to .s..76
+Also a replacement User data is foreseen :
+
+<ud to be matched>       <ud_tobe_replaced>  1st_nua   2nd_nua      nua_type
+
+\01\00\00\00.s..76       \FF*si               22486773  22486773     X25
+
+This is new format of routing table for async calls
+
+A new format has to be defined for Async entries
+
+<ud to be matched>        <Group>             1st_nua   2nd_nua      nua_type
+
+\01\00\00\00.s..76        GPC                 00000001  00000001     ASY
+
+struct NUA has been changed to :
+
+struct    NUA
+{
+    char primary_nua[NUA_LEN];
+    char secondary_nua[NUA_LEN];
+    unsigned char udata_tobe_replaced[MAX_USER_DATA_LEN];
+    /*
+     * contains binary user data to put in output call is 
+     * tranfer udata flag is true
+     */
+
+    int  udata_tobe_replaced_len;
+    int  nua_type;
+}
+
+
+Status : Implemented, To be Tested
